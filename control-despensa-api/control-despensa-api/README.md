@@ -186,7 +186,7 @@ La aplicación contiene seis productos almacenados en memoria:
 
 ## Repositorio
 
-El enlace al repositorio de GitHub se agregará al finalizar la actividad.
+https://github.com/DYLANG187/programacion-II-2026/tree/main/control-despensa-api/control-despensa-api
 
 ## Evidencias
 
