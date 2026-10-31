@@ -22,6 +22,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(respuesta);
     }
 
+    @ExceptionHandler(ReglaNegocioException.class)
+    public ResponseEntity<Map<String, String>> manejarReglaNegocio(
+            ReglaNegocioException ex) {
+
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("error", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> manejarValidaciones(
             MethodArgumentNotValidException ex) {
@@ -31,16 +41,17 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errores.put(error.getField(), error.getDefaultMessage()));
 
-        return ResponseEntity.badRequest().body(errores);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> manejarErrorGeneral(
-            RuntimeException ex) {
+            Exception ex) {
 
         Map<String, String> respuesta = new HashMap<>();
-        respuesta.put("error", ex.getMessage());
+        respuesta.put("error", "Ocurrió un error interno en el servidor");
 
-        return ResponseEntity.badRequest().body(respuesta);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(respuesta);
     }
 }

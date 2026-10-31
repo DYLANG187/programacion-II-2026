@@ -19,7 +19,6 @@ public class InscripcionDTO {
 
     private String estado;
 
-    @NotNull(message = "Debe seleccionar una actividad")
     private Long actividadId;
 
     public InscripcionDTO() {
