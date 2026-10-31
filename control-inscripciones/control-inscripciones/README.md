@@ -4,7 +4,7 @@
 
 Este proyecto consiste en desarrollar una aplicación para administrar actividades recreativas y las inscripciones de los participantes.
 
-El sistema permite registrar actividades, consultar su información, inscribir participantes y controlar aspectos como la edad mínima y el cupo disponible.
+El sistema permite registrar actividades, consultar su información, inscribir participantes y controlar aspectos como la edad mínima, el cupo disponible y el estado de las inscripciones.
 
 ## Herramientas utilizadas
 
@@ -15,18 +15,43 @@ El sistema permite registrar actividades, consultar su información, inscribir p
 - Maven
 - IntelliJ IDEA
 - Postman
+- HTML
+- CSS
+- JavaScript
 
 ## Funcionalidades implementadas
 
-- Operaciones CRUD de actividades.
-- Búsqueda de actividades por ID y fecha.
+### Administración de actividades
+
+- Registro y consulta de actividades.
 - Actualización y eliminación de actividades.
+- Búsqueda de actividades por ID y fecha.
+- Consulta de actividades con cupos disponibles.
+- Cálculo del porcentaje de ocupación de cada actividad.
+
+### Administración de inscripciones
+
 - Registro y consulta de inscripciones.
 - Consulta de participantes por actividad.
-- Validación de edad mínima.
-- Validación del cupo máximo.
 - Cambio de estado de las inscripciones.
-- Almacenamiento de información en PostgreSQL.
+- Eliminación de inscripciones.
+
+### Validaciones y reglas de negocio
+
+- Validación de edad mínima para participar.
+- Control del cupo máximo de cada actividad.
+- Restricción para reactivar inscripciones cuando la actividad está llena.
+- Restricción para reducir el cupo por debajo de la cantidad de inscripciones activas.
+- Restricción para eliminar actividades que todavía tienen inscripciones registradas.
+
+### Manejo de errores
+
+- Uso de DTOs para transferir información.
+- Manejo global de excepciones.
+- Respuestas HTTP según el tipo de error:
+    - 400 Bad Request.
+    - 404 Not Found.
+    - 409 Conflict.
 
 ## Estructura del proyecto
 
@@ -50,12 +75,12 @@ Las tablas principales son:
 
 Ambas tablas están relacionadas mediante una clave foránea.
 
+También se incluye un script SQL con datos de prueba, ubicado en la carpeta `database`.
+
 ## Pruebas realizadas
 
-Se utilizaron solicitudes HTTP en Postman para comprobar el funcionamiento de la API, incluyendo registros, consultas, actualizaciones, eliminaciones y validaciones de las reglas de negocio.
+Se utilizaron solicitudes HTTP en Postman para comprobar el funcionamiento de la API, incluyendo:
 
-## Estado del proyecto
-
-Actualmente se cuenta con una primera versión funcional del backend, con conexión a PostgreSQL y operaciones para administrar actividades e inscripciones.
-
-El proyecto continuará desarrollándose con nuevas funcionalidades y la implementación de la interfaz gráfica, es decir, frontend.
+- Registro y consulta de actividades.
+- Registro y consulta de inscripciones.
+- Actualización y eliminación de registros.
