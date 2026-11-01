@@ -1,12 +1,14 @@
 # Control de Inscripciones a Actividades Recreativas
 
-## Descripción del proyecto
+## Información del proyecto
 
-Este proyecto consiste en desarrollar una aplicación para administrar actividades recreativas y las inscripciones de los participantes.
+- **Nombre del proyecto:** Control de Inscripciones a Actividades Recreativas.
+- **Estudiante:** Dylan Garcia.
+- **Número de carné:** 9941-25-21652.
 
-El sistema permite registrar actividades, consultar su información, inscribir participantes y controlar aspectos como la edad mínima, el cupo disponible y el estado de las inscripciones.
+## Descripción del problema
 
-La aplicación cuenta con un backend desarrollado con Spring Boot y PostgreSQL, además de una interfaz web desarrollada con HTML, CSS y JavaScript.
+El proyecto busca solucionar la necesidad de administrar actividades recreativas y controlar las inscripciones de los participantes. Permite llevar un registro de las actividades, consultar los espacios disponibles y verificar que los participantes cumplan con los requisitos establecidos.
 
 ## Herramientas utilizadas
 
@@ -21,36 +23,95 @@ La aplicación cuenta con un backend desarrollado con Spring Boot y PostgreSQL, 
 - CSS
 - JavaScript
 
-## Funcionalidades implementadas
+## Estructura general del sistema
 
-### Administración de actividades
+El proyecto está organizado de la siguiente manera:
 
-- Registro de actividades.
-- Consulta de todas las actividades.
-- Consulta de actividad por ID.
-- Búsqueda de actividades por fecha.
-- Actualización de actividades.
-- Eliminación de actividades.
-- Consulta de actividades con cupos disponibles.
-- Cálculo del porcentaje de ocupación.
+- `entity`: contiene las entidades Actividad e Inscripcion.
+- `repository`: contiene los repositorios para acceder a la base de datos.
+- `service`: contiene la lógica del sistema.
+- `controller`: contiene los endpoints de la API REST.
+- `dto`: contiene las clases para transferencia de datos.
+- `exception`: contiene el manejo de excepciones.
+- `frontend`: contiene los archivos HTML, CSS y JavaScript.
+- `database`: contiene el script SQL con datos de prueba.
+- `evidencias`: contiene las capturas, documentos y colección de Postman.
 
-### Administración de inscripciones
+También se incluye `CorsConfig.java` para permitir la comunicación entre el frontend y el backend.
 
-- Registro de participantes en actividades.
-- Consulta de inscripciones.
-- Consulta de participantes por actividad.
-- Cambio de estado entre ACTIVA y CANCELADA.
-- Eliminación de inscripciones.
+## Requisitos para ejecutar el proyecto
 
-### Validaciones y reglas de negocio
+- Java JDK 17 o superior.
+- PostgreSQL.
+- IntelliJ IDEA o un entorno compatible con Maven.
+- Navegador web.
+- Git (opcional, para clonar el repositorio).
 
-- Validación de edad mínima para participar.
-- Control del cupo máximo de cada actividad.
-- Restricción para reactivar inscripciones cuando la actividad está llena.
-- Restricción para reducir el cupo por debajo de la cantidad de inscripciones activas.
-- Restricción para eliminar actividades que todavía tienen inscripciones registradas.
+## Configuración de PostgreSQL
 
-### Manejo de errores
+1. Abrir PostgreSQL mediante pgAdmin.
+2. Crear una base de datos llamada `control_inscripciones`.
+3. Verificar que PostgreSQL esté funcionando en el puerto `5432`.
+4. Configurar la variable de entorno `DB_PASSWORD` con la contraseña del usuario de PostgreSQL.
+
+El archivo `application.properties` utiliza esta variable para conectarse a la base de datos sin guardar la contraseña directamente.
+
+## Instrucciones para iniciar el backend
+
+1. Abrir el proyecto en IntelliJ IDEA.
+2. Verificar que la variable de entorno `DB_PASSWORD` esté configurada en la ejecución de Spring Boot.
+3. Esperar a que Maven cargue las dependencias.
+4. Ejecutar la clase `ControlInscripcionesApplication`.
+5. Verificar que la aplicación inicie correctamente en el puerto `8080`.
+
+La API estará disponible en:
+
+`http://localhost:8080/api`
+
+## Instrucciones para abrir el frontend
+
+1. Abrir la carpeta `frontend` del proyecto.
+2. Ejecutar el archivo `index.html` en un navegador web.
+3. Verificar que el backend esté iniciado antes de utilizar la interfaz.
+
+La interfaz se comunica con la API REST para consultar y administrar las actividades e inscripciones.
+
+## Descripción de los endpoints
+
+### Actividades
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/api/actividades` | Consulta todas las actividades. |
+| GET | `/api/actividades/{id}` | Consulta una actividad por ID. |
+| GET | `/api/actividades/fecha/{fecha}` | Busca actividades por fecha. |
+| GET | `/api/actividades/disponibles` | Consulta actividades con cupo disponible. |
+| GET | `/api/actividades/{id}/ocupacion` | Consulta el porcentaje de ocupación. |
+| POST | `/api/actividades` | Registra una actividad. |
+| PUT | `/api/actividades/{id}` | Actualiza una actividad. |
+| DELETE | `/api/actividades/{id}` | Elimina una actividad. |
+
+### Inscripciones
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/api/inscripciones` | Consulta todas las inscripciones. |
+| GET | `/api/inscripciones/{id}` | Consulta una inscripción por ID. |
+| GET | `/api/inscripciones/actividad/{actividadId}` | Consulta inscripciones por actividad. |
+| POST | `/api/inscripciones/actividad/{actividadId}` | Registra un participante en una actividad. |
+| PATCH | `/api/inscripciones/{id}/estado?estado=ACTIVA` | Cambia el estado de una inscripción. |
+| DELETE | `/api/inscripciones/{id}` | Elimina una inscripción. |
+
+## Reglas principales del negocio
+
+- Los participantes deben cumplir con la edad mínima de la actividad.
+- No se permite superar el cupo máximo.
+- No se permite reactivar una inscripción si la actividad está llena.
+- No se permite reducir el cupo por debajo de la cantidad de inscripciones activas.
+- No se permite eliminar una actividad que todavía tenga inscripciones registradas.
+- El porcentaje de ocupación se calcula tomando en cuenta las inscripciones activas.
+
+## Validaciones y manejo de errores
 
 - Uso de DTOs para transferir información.
 - Validaciones mediante Spring.
@@ -59,6 +120,7 @@ La aplicación cuenta con un backend desarrollado con Spring Boot y PostgreSQL, 
   - 400 Bad Request.
   - 404 Not Found.
   - 409 Conflict.
+  - 500 Internal Server Error.
 
 ## Interfaz web
 
@@ -76,26 +138,6 @@ La interfaz permite:
 - Cambiar el estado de las inscripciones.
 - Eliminar inscripciones.
 - Mostrar mensajes de éxito y error.
-
-## Estructura del proyecto
-
-El proyecto está organizado en los siguientes paquetes:
-
-- `entity`: contiene las entidades Actividad e Inscripcion.
-- `repository`: contiene los repositorios para acceder a la base de datos.
-- `service`: contiene la lógica del sistema.
-- `controller`: contiene los endpoints de la API REST.
-- `dto`: contiene las clases para transferencia de datos.
-- `exception`: contiene el manejo de excepciones.
-
-La interfaz web se encuentra en la carpeta:
-
-- `frontend`: contiene los archivos HTML, CSS y JavaScript.
-
-También se incluyen:
-
-- `database`: contiene el script SQL con datos de prueba.
-- `evidencias`: contiene las capturas, documentos y colección de Postman.
 
 ## Base de datos
 
