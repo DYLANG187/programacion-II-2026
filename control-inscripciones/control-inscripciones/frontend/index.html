@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inscripciones</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Control de Inscripciones</h1>
+    <p>Actividades recreativas</p>
+</header>
+
+<main>
+
+    <section class="panel">
+        <h2>Registrar actividad</h2>
+
+        <form id="formActividad">
+            <input type="text" id="nombreActividad" placeholder="Nombre de la actividad" required>
+
+            <textarea id="descripcionActividad" placeholder="Descripción"></textarea>
+
+            <input type="date" id="fechaActividad" required>
+
+            <input type="number" id="cupoActividad" placeholder="Cupo" min="1" required>
+
+            <input type="number" id="edadMinimaActividad"
+                   placeholder="Edad mínima" min="0" required>
+
+            <button type="submit">Registrar actividad</button>
+        </form>
+
+        <p id="mensajeActividad"></p>
+    </section>
+
+    <section class="panel" id="panelEdicion" style="display: none;">
+        <h2>Editar actividad</h2>
+
+        <form id="formEdicion">
+            <input type="hidden" id="idEdicion">
+
+            <input type="text" id="nombreEdicion"
+                   placeholder="Nombre de la actividad" required>
+
+            <textarea id="descripcionEdicion"
+                      placeholder="Descripción"></textarea>
+
+            <input type="date" id="fechaEdicion" required>
+
+            <input type="number" id="cupoEdicion"
+                   placeholder="Cupo" min="1" required>
+
+            <input type="number" id="edadMinimaEdicion"
+                   placeholder="Edad mínima" min="0" required>
+
+            <button type="submit">Guardar cambios</button>
+            <button type="button" onclick="cancelarEdicion()">
+                Cancelar
+            </button>
+        </form>
+
+        <p id="mensajeEdicion"></p>
+    </section>
+
+    <section class="panel">
+        <div class="titulo-seccion">
+            <h2>Actividades</h2>
+
+            <div class="acciones">
+                <button type="button" onclick="cargarActividades()">
+                    Todas
+                </button>
+
+                <button type="button" onclick="cargarActividadesDisponibles()">
+                    Con cupo disponible
+                </button>
+            </div>
+        </div>
+
+        <div id="listaActividades"></div>
+    </section>
+
+
+    <section class="panel">
+        <h2>Registrar inscripción</h2>
+
+        <form id="formInscripcion">
+
+            <select id="actividadInscripcion" required>
+                <option value="">Seleccionar actividad</option>
+            </select>
+
+            <input type="text" id="nombreParticipante"
+                   placeholder="Nombre del participante" required>
+
+            <input type="number" id="edadParticipante"
+                   placeholder="Edad" min="0" required>
+
+            <button type="submit">Registrar inscripción</button>
+        </form>
+
+        <p id="mensajeInscripcion"></p>
+    </section>
+
+
+    <section class="panel">
+        <div class="titulo-seccion">
+            <h2>Inscripciones</h2>
+            <button type="button" onclick="cargarInscripciones()">Actualizar</button>
+        </div>
+
+        <div id="listaInscripciones"></div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
